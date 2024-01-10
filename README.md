@@ -9,7 +9,7 @@ from connectmlsconnector.client import Client
 ```
 Create a new client with your credentials
 ```python
-client = Client(username="your_username, password="your_password")
+client = Client(username="your_username", password="your_password")
 ```
 ### Example Usage
 Request listing IDs
