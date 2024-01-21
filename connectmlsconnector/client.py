@@ -64,7 +64,7 @@ class Client(BaseClient):
         """
         Retrieve available listing IDs that correspond to parameters specified in the payload.
 
-        :param property_payload: Contains the property type and criteria to be applied to the search.
+        :param property_payload: Contains the property type and parameters that listings should match.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
@@ -82,10 +82,9 @@ class Client(BaseClient):
 
     def download(self, export_payload: dict, receive_bytes: bool = False) -> Union[bytes, None]:
         """
-        Download listing information to the system based on the file format specified
-        in the payload.
+        Download listings to the system based on the file format specified in the payload.
 
-        :param export_payload: Contains property listings IDs and criteria dictating how the server
+        :param export_payload: Contains listings IDs and criteria dictating how the server
                                should generate the export file.
         :param receive_bytes: Indicates whether a 'Bytes' object should be returned. Can be used to convert the bytes
                               to a data structure of choice, such as a Pandas DataFrame (refer to the documentation for
@@ -112,9 +111,9 @@ class Client(BaseClient):
 
     def get_file_info(self, export_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
-        Get the name and location of the recently created file.
+        Get the name and location of the recently created export file.
 
-        :param export_payload: Contains property listings IDs and criteria dictating how the server
+        :param export_payload: Contains listings IDs and criteria dictating how the server
                                should generate the export file.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
@@ -156,11 +155,11 @@ class Client(BaseClient):
 
     def get_table_info(self, property_type: str, table_name: str) -> Union[dict, None]:
         """
-        Get the name and ID of a default or custom table.
+        Get the unique table ID of a default or custom table.
 
         :param property_type: Property type to check a table for (example: Attached Single is "AT").
         :param table_name: Name of the table to search for.
-        :return: A decoded JSON dictionary containing table info. If no table matching the name is found, None
+        :return: A decoded JSON dictionary containing the table ID. If no table matching the name is found, None
                  is returned.
         """
 
@@ -170,14 +169,15 @@ class Client(BaseClient):
 
     def create_custom_table(self, table_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
-        Creates and saves a custom table to your profile.
+        Create and save a custom table to your profile.
 
         :param table_payload: Contains information on what columns your custom table should be
                               made up of.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
-        :return:
+        :return: A decoded JSON dictionary containing information on the new table. To get the underlying 'Response'
+                 object, set "raw_response = True".
         """
 
         endpoint = "/api/reports/custom/save"
