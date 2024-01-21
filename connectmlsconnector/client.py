@@ -235,7 +235,7 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
-    def get_listing_count(
+    def get_listings_count(
             self,
             property_payload: dict,
             focus_count: bool = False,
@@ -257,7 +257,7 @@ class Client(BaseClient):
         """
 
         endpoint = "/api/search/listing/count"
-        response = self.get(path=endpoint, json=property_payload)
+        response = self.post(path=endpoint, json=property_payload)
 
         if raw_response:
             return response
