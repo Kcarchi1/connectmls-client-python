@@ -94,7 +94,7 @@ class Client(BaseClient):
                  "receive_bytes = True".
         """
 
-        response = self.get_file_info(export_payload)
+        response = self.get_export_file_info(export_payload)
         download_bytes = self.get(path=response["url"]).content
 
         if receive_bytes:
@@ -109,7 +109,7 @@ class Client(BaseClient):
 
         return None
 
-    def get_file_info(self, export_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
+    def get_export_file_info(self, export_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
         Get the name and location of the recently created export file.
 
@@ -153,7 +153,7 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
-    def get_table_info(self, property_type: str, table_name: str) -> Union[dict, None]:
+    def get_table_id(self, property_type: str, table_name: str) -> Union[dict, None]:
         """
         Get the unique table ID of a default or custom table.
 
