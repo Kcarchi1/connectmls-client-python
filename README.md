@@ -1,6 +1,6 @@
 # connectMLS Client Python
 
-Welcome to the unofficial Python client module for the [MRED connectMLS](https://store.mredllc.com/products/1000) API. The end goal is to ultimately turn this module into a python package, but for now, feel free to fork this repository and use it or build upon it as it undergoes development.
+Welcome to the unofficial Python client module for the [MRED connectMLS](https://connectmls-api.mredllc.com/oid/login) API. The end goal is to ultimately turn this module into a python package, but for now, feel free to fork this repository and use it or build upon it as it undergoes development.
 
 ## Creating Client
 Import the Client.
@@ -12,7 +12,7 @@ Create a new client with your credentials
 client = Client(username="your_username", password="your_password")
 ```
 ### Example Usage
-Request listing IDs
+Get listing IDs
 ```python
 # Fill payload with search parameters
 payload = {
@@ -62,6 +62,6 @@ payload = {
   "record": True
 }
 
-listing_ids = client.search(property_payload=payload)
+listing_ids = client.get_listings_ids(property_payload=payload)
 print(listing_ids)
 ```
