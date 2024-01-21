@@ -214,6 +214,18 @@ class Client(BaseClient):
             listing_id: str,
             raw_response: bool = False
     ) -> Union[Response, dict]:
+        """
+        Get all details available to a listing by utilizing both the specified listing ID and property type
+        it corresponds to.
+
+        :param property_type: Property type that the listing corresponds to (example: Attached Single is "AT").
+        :param listing_id: ID of the listing to get details for.
+        :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
+                             the status code or headers of the response. Defaults to False which returns the decoded
+                             JSON dictionary.
+        :return: A decoded JSON dictionary by default, containing available listing details. To get the underlying
+                 'Response' object, set "raw_response = True".
+        """
 
         endpoint = f"/api/search/listing/details/data/LISTING/{property_type}/{listing_id}"
         response = self.get(path=endpoint)
@@ -229,6 +241,20 @@ class Client(BaseClient):
             focus_count: bool = False,
             raw_response: bool = False
     ) -> Union[Response, dict]:
+        """
+        Get the amount of listings that correspond to the parameters specified in the payload.
+
+        :param property_payload: Contains the property type and parameters that listings should match.
+        :param focus_count: Indicates whether only count information should be returned, ignoring
+                            additional fields found in the response such as "errors" and "top_errors". Defaults
+                            to False which includes all information. Note: If "raw_response" is set to True,
+                            this parameter will be ignored even if True.
+        :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
+                             the status code or headers of the response. Defaults to False which returns the decoded
+                             JSON dictionary.
+        :return: A decoded JSON dictionary by default, containing listings count. To get the underlying
+                 'Response' object, set "raw_response = True".
+        """
 
         endpoint = "/api/search/listing/count"
         response = self.get(path=endpoint, json=property_payload)
