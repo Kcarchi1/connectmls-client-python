@@ -69,11 +69,15 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
-    def get_listings_ids(self, property_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
+    def get_listings_ids(
+            self, property_payload: dict, limit: int = None, raw_response: bool = False
+    ) -> Union[Response, dict]:
         """
         Retrieve available listing IDs that correspond to parameters specified in the payload.
 
         :param property_payload: Contains the property type and parameters that listings should match.
+        :param limit: If specified, limits the IDs returned to the first N IDs. Defaults to None which returns
+                      all IDs.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
@@ -86,6 +90,13 @@ class Client(BaseClient):
 
         if raw_response:
             return response
+
+        if limit is not None:
+            if limit < 0:
+                raise TypeError("Limit must be greater than zero")
+
+            d = self.to_json(response)
+            return {"ids": d["ids"][:limit]}
 
         return self.to_json(response)
 
