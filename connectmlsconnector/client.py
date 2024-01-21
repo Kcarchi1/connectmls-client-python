@@ -60,9 +60,9 @@ class Client(BaseClient):
 
         self.base_url = "https://" + extract_baseurl(self.session.cookies.list_domains())
 
-    def search(self, property_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
+    def get_listings_ids(self, property_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
-        Conduct a search for MRED MLS listings on ConnectMLS. Retrieve corresponding listing IDs.
+        Retrieve available listing IDs that correspond to parameters specified in the payload.
 
         :param property_payload: Contains the property type and criteria to be applied to the search.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
