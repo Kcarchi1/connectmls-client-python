@@ -208,7 +208,13 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
-    def get_listing_details(self, property_type: str, listing_id: str, raw_response: bool = False) -> Union[Response, dict]:
+    def get_listing_details(
+            self,
+            property_type: str,
+            listing_id: str,
+            raw_response: bool = False
+    ) -> Union[Response, dict]:
+
         endpoint = f"/api/search/listing/details/data/LISTING/{property_type}/{listing_id}"
         response = self.get(path=endpoint)
 
@@ -217,4 +223,21 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
+    def get_listing_count(
+            self,
+            property_payload: dict,
+            focus_count: bool = False,
+            raw_response: bool = False
+    ) -> Union[Response, dict]:
 
+        endpoint = "/api/search/listing/count"
+        response = self.get(path=endpoint, json=property_payload)
+
+        if raw_response:
+            return response
+
+        if focus_count:
+            d = self.to_json(response)
+            return {"count": d["count"]}
+
+        return self.to_json(response)
