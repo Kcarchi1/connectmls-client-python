@@ -60,6 +60,15 @@ class Client(BaseClient):
 
         self.base_url = "https://" + extract_baseurl(self.session.cookies.list_domains())
 
+    def search(self, property_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
+        endpoint = "/api/search/listing/list"
+        response = self.post(path=endpoint, json=property_payload)
+
+        if raw_response:
+            return response
+
+        return self.to_json(response)
+
     def get_listings_ids(self, property_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
         Retrieve available listing IDs that correspond to parameters specified in the payload.
