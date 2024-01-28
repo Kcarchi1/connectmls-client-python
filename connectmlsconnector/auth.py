@@ -13,8 +13,8 @@ def _find_csrf(text: str):
     match = re.search(r'name="_csrf" value="([^"]+)" />', text)
     if match:
         return match.group(1)
-
-    return None
+    else:
+        return None
 
 
 def _get_login_page_html(session: Session) -> str:
