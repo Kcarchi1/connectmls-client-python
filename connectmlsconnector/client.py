@@ -8,6 +8,7 @@ from .utils import (
     extract_baseurl,
     convert_to_excel,
     convert_to_tsv,
+    focus_keys,
 )
 
 
@@ -232,6 +233,8 @@ class Client(BaseClient):
             self,
             property_type: str,
             listing_id: str,
+            focus_data: bool = False,
+            fields: list[str] = None,
             raw_response: bool = False
     ) -> Union[Response, dict]:
         """
@@ -240,6 +243,9 @@ class Client(BaseClient):
 
         :param property_type: Property type that the listing corresponds to (example: Attached Single is "AT").
         :param listing_id: ID of the listing to get details for.
+        :param focus_data: Indicates whether only the value for the 'data' key should be returned.
+        :param fields: A list of keys to filter the decoded JSON dictionary by. Note: If "focus_data" is set to
+                       True, fields filters the 'data' dictionary instead of the top level dictionary.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
@@ -253,7 +259,19 @@ class Client(BaseClient):
         if raw_response:
             return response
 
-        return self.to_json(response)
+        d = self.to_json(response)
+
+        if focus_data:
+            data_list = d["data"]  # data_list = List[Dict]
+            if fields is not None:
+                data_list[0] = focus_keys(input_dict=data_list[0], keys=fields)
+
+            return {"data": data_list}
+
+        if fields is not None:
+            return focus_keys(input_dict=d, keys=fields)
+
+        return d
 
     def get_listings_count(
             self,
