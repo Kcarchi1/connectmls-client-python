@@ -78,7 +78,7 @@ class Client(BaseClient):
 
         :param property_payload: Contains the property type and parameters that listings should match.
         :param limit: If specified, limits the IDs returned to the first N IDs. Defaults to None which returns
-                      all IDs.
+                      all IDs. Note: If "raw_response" is set to True, this parameter will be ignored even if True.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
@@ -139,8 +139,8 @@ class Client(BaseClient):
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
-        :return: A decoded JSON dictionary by default, containing file info. To get the underlying 'Response' object,
-                 set "raw_response = True".
+        :return: A decoded JSON dictionary by default, containing information of the generated export file. To get the
+                 underlying 'Response' object, set "raw_response = True".
         """
 
         endpoint = "/api/listing/mylistings/export"
@@ -238,14 +238,14 @@ class Client(BaseClient):
             raw_response: bool = False
     ) -> Union[Response, dict]:
         """
-        Get all details available to a listing by utilizing both the specified listing ID and property type
+        Get all details available to a listing by utilizing both the specified listing ID and the property type
         it corresponds to.
 
         :param property_type: Property type that the listing corresponds to (example: Attached Single is "AT").
         :param listing_id: ID of the listing to get details for.
         :param focus_data: Indicates whether only the value for the 'data' key should be returned.
         :param fields: A list of keys to filter the decoded JSON dictionary by. Note: If "focus_data" is set to
-                       True, fields filters the 'data' dictionary instead of the top level dictionary.
+                       True, "fields" filters the 'data' dictionary instead of the top level dictionary.
         :param raw_response: Indicates whether a 'Response' object should be returned. Can be utilized to check
                              the status code or headers of the response. Defaults to False which returns the decoded
                              JSON dictionary.
@@ -280,7 +280,7 @@ class Client(BaseClient):
             raw_response: bool = False
     ) -> Union[Response, dict]:
         """
-        Get the amount of listings that correspond to the parameters specified in the payload.
+        Get the amount of listings currently available for the parameters specified in the payload.
 
         :param property_payload: Contains the property type and parameters that listings should match.
         :param focus_count: Indicates whether only count information should be returned, ignoring
