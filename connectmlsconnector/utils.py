@@ -13,6 +13,10 @@ def extract_baseurl(domains):
     return None
 
 
+def focus_keys(input_dict: dict, keys: list) -> dict:
+    return {key: input_dict[key] for key in keys if key in input_dict}
+
+
 def convert_to_excel(name, b):
     wb = Workbook()
     ws = wb.active
@@ -23,7 +27,6 @@ def convert_to_excel(name, b):
         ws.append(row)
 
     wb.save(f"{name}.xlsx")
-    return None
 
 
 def convert_to_tsv(name, b):
@@ -32,5 +35,3 @@ def convert_to_tsv(name, b):
     with open(f"{name}.tsv", "w") as file:
         for line in lines:
             file.write(line + "\n")
-
-    return None
