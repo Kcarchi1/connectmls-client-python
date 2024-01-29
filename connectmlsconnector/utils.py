@@ -18,7 +18,12 @@ def focus_keys(input_dict: dict, keys: list) -> dict:
     return {key: input_dict[key] for key in keys if key in input_dict}
 
 
+def remove_substring(string: str, substring: str) -> str:
+    return string.replace(substring, "")
+
+
 def convert_to_excel(save_path: str, name: str, b: bytes):
+    name = remove_substring(name, ".XLS")
     if save_path is not None:
         save_path = path.join(save_path, name)
     else:
@@ -36,6 +41,7 @@ def convert_to_excel(save_path: str, name: str, b: bytes):
 
 
 def convert_to_tsv(save_path: str, name: str, b: bytes):
+    name = remove_substring(name, ".TSV")
     if save_path is not None:
         save_path = path.join(save_path, name)
     else:
