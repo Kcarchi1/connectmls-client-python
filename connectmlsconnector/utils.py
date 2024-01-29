@@ -1,5 +1,6 @@
 import re
 import csv
+from os import path
 
 from openpyxl import Workbook
 
@@ -17,7 +18,12 @@ def focus_keys(input_dict: dict, keys: list) -> dict:
     return {key: input_dict[key] for key in keys if key in input_dict}
 
 
-def convert_to_excel(name, b):
+def convert_to_excel(save_path: str, name: str, b: bytes):
+    if save_path is not None:
+        save_path = path.join(save_path, name)
+    else:
+        save_path = name
+
     wb = Workbook()
     ws = wb.active
 
@@ -26,12 +32,17 @@ def convert_to_excel(name, b):
     for row in csv_reader:
         ws.append(row)
 
-    wb.save(f"{name}.xlsx")
+    wb.save(f"{save_path}.xlsx")
 
 
-def convert_to_tsv(name, b):
+def convert_to_tsv(save_path: str, name: str, b: bytes):
+    if save_path is not None:
+        save_path = path.join(save_path, name)
+    else:
+        save_path = name
+
     lines = b.decode("utf-8").split("\n")
 
-    with open(f"{name}.tsv", "w") as file:
+    with open(f"{save_path}.tsv", "w") as file:
         for line in lines:
             file.write(line + "\n")
