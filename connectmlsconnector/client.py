@@ -92,14 +92,15 @@ class Client(BaseClient):
         if raw_response:
             return response
 
+        d = self.to_json(response)
+
         if limit is not None:
             if limit < 0:
                 raise TypeError("Limit must be greater than zero")
 
-            d = self.to_json(response)
             return {"ids": d["ids"][:limit]}
 
-        return self.to_json(response)
+        return d
 
     def download(self, export_payload: dict, path: str = None, receive_bytes: bool = False) -> Union[bytes, None]:
         """
@@ -302,8 +303,9 @@ class Client(BaseClient):
         if raw_response:
             return response
 
+        d = self.to_json(response)
+
         if focus_count:
-            d = self.to_json(response)
             return {"count": d["count"]}
 
-        return self.to_json(response)
+        return d
