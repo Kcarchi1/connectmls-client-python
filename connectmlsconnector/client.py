@@ -10,6 +10,7 @@ from .utils import (
     convert_to_tsv,
     focus_keys,
 )
+from .exceptions import ExpiredSessionError
 
 
 class BaseClient:
@@ -30,6 +31,9 @@ class BaseClient:
             url=self.base_url + path, json=json, timeout=self.timeout_settings
         )
 
+        if response.status_code == 441:
+            raise ExpiredSessionError("session expired must refresh the client")
+
         if raw_response:
             return response
 
@@ -42,6 +46,9 @@ class BaseClient:
 
         if raw_response:
             return response
+
+        if response.status_code == 441:
+            raise ExpiredSessionError("session expired must refresh the client")
 
         return self.to_json(response)
 
