@@ -101,12 +101,14 @@ class Client(BaseClient):
 
         return self.to_json(response)
 
-    def download(self, export_payload: dict, receive_bytes: bool = False) -> Union[bytes, None]:
+    def download(self, export_payload: dict, path: str = None, receive_bytes: bool = False) -> Union[bytes, None]:
         """
         Download listings to the system based on the file format specified in the payload.
 
         :param export_payload: Contains listings IDs and criteria dictating how the server
                                should generate the export file.
+        :param path: Indicates where the downloaded file should be saved by providing an absolute path. Defaults to None
+                     which saves the file to the current working directory.
         :param receive_bytes: Indicates whether a 'Bytes' object should be returned. Can be used to convert the bytes
                               to a data structure of choice, such as a Pandas DataFrame (refer to the documentation for
                               examples). Defaults to False which downloads the listings to the system based on the
@@ -124,11 +126,11 @@ class Client(BaseClient):
         export_type = export_payload["type"].upper()
 
         if export_type == "XLS":
-            convert_to_excel(response["filename"], download_bytes)
+            convert_to_excel(save_path=path, name=response["filename"], b=download_bytes)
         elif export_type == "TSV":
-            convert_to_tsv(response["filename"], download_bytes)
-
-        return None
+            convert_to_tsv(save_path=path, name=response["filename"], b=download_bytes)
+        else:
+            return None
 
     def get_export_file_info(self, export_payload: dict, raw_response: bool = False) -> Union[Response, dict]:
         """
