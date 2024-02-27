@@ -7,7 +7,7 @@ from openpyxl import Workbook
 
 def extract_baseurl(domains):
     for domain in domains:
-        match = re.match(r'connectmls\d.mredllc.com', domain)
+        match = re.match(r'connectmls\d+\.mredllc\.com', domain)
         if match:
             return match.group()
 
